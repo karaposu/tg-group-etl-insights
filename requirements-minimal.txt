@@ -1,0 +1,4 @@
+# Minimal requirements for testing ConvoETL Version 1
+prefect>=2.14.0
+pandas>=2.0.0
+aiofiles>=23.0.0
