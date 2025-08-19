@@ -1,3 +1,6 @@
+
+
+
 # Known Requirements
 
 ## Functional Requirements
@@ -32,7 +35,22 @@
 - **FR-23**: Store pre-calculated metrics for performance
 
 ### Analytics (Insights Module)
+
+
+
+
+
 #### Message Analysis
+
+
+│ > in message analytics results you have aggregations and then all detaials of messages are in metric details\                            │
+│   \                                                                                                                                      │
+│   \                                                                                                                                      │
+│   i think we can have a table called message_analytics where we have the columns like \                                                  │
+│   \                                                                                                                                      │
+│   word length character length includes_link , theme,    
+
+
 - **FR-24**: Calculate total messages, words, and characters
 - **FR-25**: Determine chat duration in days
 - **FR-26**: Calculate average message/word/character lengths

@@ -93,6 +93,11 @@ async def load_messages_task(
     loader = SQLiteLoader(storage_config)
     
     try:
+        # Store chat info if available
+        if 'chat_info' in messages_df.attrs:
+            await loader.store_chat_info(messages_df.attrs['chat_info'])
+            logger.info(f"Stored chat info for {messages_df.attrs['chat_info'].get('title', 'unknown')}")
+        
         count = await loader.store_messages(messages_df)
         logger.info(f"Loaded {count} messages to storage")
         return count

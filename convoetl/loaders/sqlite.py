@@ -317,8 +317,36 @@ class SQLiteLoader(BaseLoader):
         self.conn.commit()
         return len(users_df)
     
+    async def store_chat_info(self, chat_info: Dict[str, Any]) -> bool:
+        """Store chat (group/channel) information"""
+        cursor = self.conn.cursor()
+        
+        # Convert metadata to JSON string if present
+        metadata = json.dumps(chat_info.get('metadata', {})) if 'metadata' in chat_info else None
+        
+        cursor.execute("""
+            INSERT OR REPLACE INTO chats 
+            (chat_id, platform, title, username, description, chat_type, 
+             participants_count, is_verified, metadata, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            chat_info['chat_id'],
+            chat_info['platform'],
+            chat_info.get('title'),
+            chat_info.get('username'),
+            chat_info.get('description'),
+            chat_info.get('chat_type', 'group'),
+            chat_info.get('participants_count'),
+            chat_info.get('is_verified', False),
+            metadata,
+            datetime.now()
+        ))
+        
+        self.conn.commit()
+        return True
+    
     async def store_source_info(self, source_info: Dict[str, Any]) -> bool:
-        """Store source (group/channel) information"""
+        """Store source (group/channel) information - kept for backward compatibility"""
         cursor = self.conn.cursor()
         
         # Convert metadata to JSON string

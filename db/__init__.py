@@ -13,6 +13,7 @@ from .membership import UserGroupMembership
 from .insights import UserInsight
 from .etl import ETLRun
 from .stats import DailyGroupStats
+from .message_analytics import MessageAnalytics
 
 # Model registry for easy access
 MODELS = {
@@ -22,7 +23,8 @@ MODELS = {
     'user_group_memberships': UserGroupMembership,
     'user_insights': UserInsight,
     'etl_runs': ETLRun,
-    'daily_group_stats': DailyGroupStats
+    'daily_group_stats': DailyGroupStats,
+    'message_analytics': MessageAnalytics
 }
 
 __all__ = [
@@ -41,6 +43,7 @@ __all__ = [
     'UserInsight',
     'ETLRun',
     'DailyGroupStats',
+    'MessageAnalytics',
     
     # Registry
     'MODELS'

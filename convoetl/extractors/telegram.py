@@ -137,8 +137,9 @@ class TelegramExtractor(BaseExtractor):
             # Standardize column names for ConvoETL
             messages_df = self._standardize_telegram_df(messages_df, group_id)
             
-            # Also extract and store chat info
-            await self.extract_chat_info(str(group_id))
+            # Also extract chat info and attach it as an attribute
+            chat_info = await self.extract_chat_info(str(group_id))
+            messages_df.attrs['chat_info'] = chat_info
             
             return messages_df
             
@@ -166,13 +167,20 @@ class TelegramExtractor(BaseExtractor):
             
             if not group_info.empty:
                 info = group_info.iloc[0]
+                participants = info.get('ParticipantsCount', 0)
+                # Ensure participants_count is an integer
+                if pd.notna(participants):
+                    participants = int(participants)
+                else:
+                    participants = 0
+                    
                 return {
                     'chat_id': str(chat_id),
                     'platform': self.platform_name,
                     'title': info.get('Title', ''),
                     'username': info.get('Username', ''),
                     'chat_type': 'channel' if info.get('IsChannel', False) else 'group',
-                    'participants_count': info.get('ParticipantsCount', 0),
+                    'participants_count': participants,
                     'is_verified': False,
                     'metadata': info.to_json()
                 }
@@ -217,12 +225,11 @@ class TelegramExtractor(BaseExtractor):
         df_standardized = df.rename(columns=column_mapping)
         
         # Drop any columns not in our schema
-        columns_to_keep = list(column_mapping.values()) + ['platform', 'chat_id', 'source_id', 'message_type']
+        columns_to_keep = list(column_mapping.values()) + ['platform', 'chat_id', 'message_type']
         
         # Add platform and chat information
         df_standardized['platform'] = self.platform_name
         df_standardized['chat_id'] = str(chat_id)
-        df_standardized['source_id'] = str(chat_id)  # Keep for backward compatibility
         df_standardized['message_type'] = 'text'  # Default, can be enhanced
         
         # Keep only the columns we need
