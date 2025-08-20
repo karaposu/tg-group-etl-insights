@@ -12,7 +12,7 @@ from pathlib import Path
 
 from ..sqlite.executor import SQLiteAnalyticsExecutor
 from ..sqlite.queries import MESSAGE_QUERIES, USER_QUERIES, CHAT_QUERIES
-from ..sqlite.results_saver import AnalyticsResultsSaver
+from ..sqlite.message_analytics_saver import MessageAnalyticsSaver
 
 
 @task(

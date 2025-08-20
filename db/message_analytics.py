@@ -235,3 +235,4 @@ class MessageAnalytics(Base):
         # Mark as analyzed
         self.analyzed_at = func.now()
         self.requires_reanalysis = False
+        

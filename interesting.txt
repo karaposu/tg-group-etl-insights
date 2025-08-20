@@ -1,0 +1,7 @@
+ Customer Data Warehouse (CDW) / Customer Data Platform (CDP) - For customer-centric analytics
+  2. More specifically, what we're building follows the Dimensional Modeling pattern:
+    - Fact Tables - Store measurements/events (like daily_chat_stats)
+    - Dimension Tables - Store descriptive attributes (like chats, users)
+    - Aggregate Tables / Summary Tables - Pre-computed metrics
+  3. The specific pattern we're discussing is called a Data Mart - a subset of data warehouse focused on specific analytics (in
+  our case, chat analytics)
